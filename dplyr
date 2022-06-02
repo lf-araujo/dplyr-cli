@@ -1,34 +1,24 @@
 #!/usr/bin/env Rscript
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#
-#  dplyr-cli    [mikefc@coolbutuseless.com]
-#
-# Run chains of dplyr commands in the terminal
-#
-# * run any dplyr command of the form "dplyr::verb(.data, code)"
-# * can set input file to be a CSV or RDS file
-# * if reading data from stdin (the default), assume that it is CSV format
-#
-# History
-#   v0.1.0  2020-04-20 Initial release
-#   v0.1.1  2020-04-21 Switch to Rscript executable
-#   v0.1.2  2020-04-21 Support for joins
-#   v0.1.3  2020-04-22 More robust tmpdir handling
-#   v0.1.4  2022-01-23 Fix for newer read_csv handling
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+doc <- "dplyr-cli      [ldearaujo@unimelb.edu.au, mikefc@coolbutuseless.com]
 
-suppressMessages({
-    library(docopt)
-    library(dplyr)
-})
+Run chains of dplyr commands in the terminal. This update
+allows guessing and fast reading with fread, as well as,
+managing the data as fast as possible with data.table
 
+* run any dplyr command of the form dplyr::verb(.data, code)
+* can set input file to be a CSV or RDS file
+* if reading data from stdin (the default), assume that it is CSV format
 
+History
+  v0.1.0  2020-04-20 Initial release
+  v0.1.1  2020-04-21 Switch to Rscript executable
+  v0.1.2  2020-04-21 Support for joins
+  v0.1.3  2020-04-22 More robust tmpdir handling
+  v0.1.4  2022-01-23 Fix for newer read_csv handling
+  v0.2.0  2020-06-02 General guessing with fread
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# configuration for docopt
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-doc <- "dplyr-cli
+You may encounter errors in the first ever run, due to package installation. Test a second time if this is the case.
 
 Usage:
     dplyr <command> [--file=fn] [--csv | -c] [--verbose | -v] [<code>...]
@@ -36,19 +26,25 @@ Usage:
 
 Options:
     -h --help            show this help text
+    --version     Show version.
     -f FILE --file=FILE  input CSV or RDS filename. If reading from stdin, assumes CSV [default: stdin]
     -c --csv             write output to stdout in CSV format (instead of default RDS file)
     -v --verbose         be verbose"
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Print help if requested
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-opt <- docopt(doc)
+suppressMessages({
+  invisible(
+    c( "docopt", "dplyr", "data.table", "dtplyr")|>
+        lapply(function(x) { if (!require(x, character.only = TRUE)) {
+                 install.packages(x, dependencies = TRUE, repos='http://cran.us.r-project.org')
+                 library(x)}})
+  )
+})
 
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Helper function to reading data from a file based upon its extension
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Extracting docopt arguments
+opt <- docopt(doc, version = 'dplyr-cli v0.2.0')
+
+
 read_data <- function(input) {
     if (!file.exists(input)) {
         stop("[input]: not found: ", input)
@@ -56,24 +52,11 @@ read_data <- function(input) {
     ext <- tolower(tools::file_ext(input))
     switch(
         ext,
-        csv = readr::read_csv(input, col_types = readr::cols()),
-        rds = readRDS(input),
+        csv = lazy_dt(fread(input)),
+        rds = lazy_dt(readRDS(input)),
         stop("Unknown file extension: ", ext)
     )
 }
-
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Helper function
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"%||%" <- function(x, y) {
-    if (is.null(x)) {
-      y
-    } else {
-      x
-    }
-}
-
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # What did the user pass in to stdin?
@@ -86,14 +69,15 @@ read_data <- function(input) {
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 if (opt$verbose) message("------------------------------------------")
 input <- readLines(opt$file)
-
 if (length(input) == 1) {
     input <- trimws(input)
     if (opt$verbose) message("[input] looks like an existing file: ", input)
+      message(input)
     .data <- read_data(input)
 } else {
     if (opt$verbose) message("[input] reading CSV from stdin")
-    .data <- readr::read_csv(I(input), col_types = readr::cols())
+      # .data <- readr::read_csv(I(input), col_types = readr::cols())
+    .data <- dtplyr::lazy_dt(data.table::fread(text = I(input)))
 }
 
 

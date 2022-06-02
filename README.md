@@ -3,13 +3,10 @@
 
 # dplyr-cli
 
-<!-- badges: start -->
-
-![](https://img.shields.io/badge/cool-useless-green.svg)
-<!-- badges: end -->
-
-`dplyr-cli` uses the `Rscript` executable to run dplyr commands on CSV
-files in the terminal.
+This a fork of a very nice tool written as a Rscript uses the `Rscript`
+executable to run dplyr commands on CSV files in the terminal. This
+version, however, changes the code so it reads any filetype supported by
+`data.table::fread()` and manipulates the data as a `data.table` object.
 
 `dplyr-cli` makes use of the terminal pipe `|` instead of the magrittr
 pipe (`%>%`) to run sequences of commands.
@@ -23,32 +20,34 @@ pipe (`%>%`) to run sequences of commands.
 
 ## Motivation
 
-I wanted to be able to do quick hacks on CSV files on the command line
-using dplyr syntax, but without actually starting a proper R session.
+This modification of the original code was a result of necessity while
+working with genotype data. It is by no means the quickest way of doing
+this type of manipulation but it reduces learning curve while keeping
+the process relatively quick due to `data.table` use.
 
 ## What dplyr commands are supported?
 
 Any command of the form:
 
--   `dplyr::verb(.data, code)`
--   `dplyr::*_join(.data, .rhs)`
+  - `dplyr::verb(.data, code)`
+  - `dplyr::*_join(.data, .rhs)`
 
 Currently two extra commands are supported which are not part of
 `dplyr`.
 
--   `csv` performs no dplyr command, but only outputs the input data as
+  - `csv` performs no dplyr command, but only outputs the input data as
     CSV to stdout
--   `kable` performs no dplyr command, but only outputs the input data
+  - `kable` performs no dplyr command, but only outputs the input data
     as a `knitr::kable()` formatted string to stdout
 
 ## Limitations
 
--   Only tested under ‘bash’ on OSX. YMMV.
--   Every command runs in a separate R session.
--   When using special shell characters such as `()`, you’ll have to
+  - Only tested under ‘bash’ and ‘zsh’ on OSX and Linux. YMMV.
+  - Every command runs in a separate R session.
+  - When using special shell characters such as `()`, you’ll have to
     quote your code arguments. Some shells will require more quoting
     than others.
--   “joins” (such as `left_join`) do not currently let you specify the
+  - “joins” (such as `left_join`) do not currently let you specify the
     `by` argument, so there must be columns in common to both dataset
 
 ## Usage
@@ -57,7 +56,25 @@ Currently two extra commands are supported which are not part of
 dplyr --help
 ```
 
-    #  dplyr-cli
+    #  dplyr-cli      [ldearaujo@unimelb.edu.au, mikefc@coolbutuseless.com]
+    #  
+    #  Run chains of dplyr commands in the terminal. This update
+    #  allows guessing and fast reading with fread, as well as,
+    #  managing the data as fast as possible with data.table
+    #  
+    #  * run any dplyr command of the form dplyr::verb(.data, code)
+    #  * can set input file to be a CSV or RDS file
+    #  * if reading data from stdin (the default), assume that it is CSV format
+    #  
+    #  History
+    #    v0.1.0  2020-04-20 Initial release
+    #    v0.1.1  2020-04-21 Switch to Rscript executable
+    #    v0.1.2  2020-04-21 Support for joins
+    #    v0.1.3  2020-04-22 More robust tmpdir handling
+    #    v0.1.4  2022-01-23 Fix for newer read_csv handling
+    #    v0.2.0  2020-06-02 General guessing with fread
+    #  
+    #  You may encounter errors in the first ever run, due to package installation. Test a second time if this is the case.
     #  
     #  Usage:
     #      dplyr <command> [--file=fn] [--csv | -c] [--verbose | -v] [<code>...]
@@ -65,6 +82,7 @@ dplyr --help
     #  
     #  Options:
     #      -h --help            show this help text
+    #      --version     Show version.
     #      -f FILE --file=FILE  input CSV or RDS filename. If reading from stdin, assumes CSV [default: stdin]
     #      -c --csv             write output to stdout in CSV format (instead of default RDS file)
     #      -v --verbose         be verbose
@@ -73,63 +91,45 @@ dplyr --help
 
 #### v0.1.0 2020-04-20
 
--   Initial release
+  - Initial release
 
 #### v0.1.1 2020-04-21
 
--   Switch to ‘Rscript’ for easier install for users
--   rename ‘dplyr.sh’ to just ‘dplyr’
+  - Switch to ‘Rscript’ for easier install for users
+  - rename ‘dplyr.sh’ to just ‘dplyr’
 
 #### v0.1.2 2020-04-21
 
--   Support for joins e.g. `left_join`
+  - Support for joins e.g. `left_join`
 
 #### v0.1.3 2020-04-22
 
--   More robust tmpdir handling
+  - More robust tmpdir handling
 
 #### v0.1.4 2022-01-23
 
--   Fix handling for latest `read_csv()`. Fixes #9
+  - Fix handling for latest `read_csv()`. Fixes \#9
+
+#### v0.2.0 2020-06-02
+
+  - Converted to use fread and data.table
 
 ## Contributors
 
--   [aborusso](https://github.com/aborruso) - documentation
+  - [coolbutuseless](https://github.com/coolbutuseless) - original
+    author
+  - [aborusso](https://github.com/aborruso) - documentation
 
 ## Installation
 
 Because this script straddles a great divide between R and the shell,
 you need to ensure both are set up correctly for this to work.
 
-1.  Install R packages
+1.  \~Install R packages\~. This was also edited to perform installation
+    of dependencies in first run. So in the very first run, expect it
+    not to work. I still have to figure out a way of echoing meaninful
+    warnings in this case.
 2.  Clone this repo and put `dplyr` in your path
-
-#### Install R packages - within R
-
-`dplyr-cli` is run from the shell but at every invocation is starting a
-new rsession where the following packages are expected to be installed:
-
-``` r
-install.packages('readr')    # read in CSV data
-install.packages('dplyr')    # data manipulation
-install.packages('docopt')   # CLI description language
-```
-
-<details>
-<summary>
-Click to reveal instructions for installing packages on the command line
-</summary>
-
-To do it from the cli on a linux-ish system, install `r-base`
-(`sudo apt -y install r-base`) and then run
-
-``` bash
-sudo su - -c "R -e \"install.packages('readr', repos='http://cran.rstudio.com/')\""
-sudo su - -c "R -e \"install.packages('dplyr', repos='http://cran.rstudio.com/')\""
-sudo su - -c "R -e \"install.packages('docopt', repos='http://cran.rstudio.com/')\""
-```
-
-</details>
 
 #### Clone this repo and put `dplyr` in your path
 
@@ -191,6 +191,8 @@ cat mtcars.csv | \
    dplyr kable
 ```
 
+    #  /tmp//dplyr-cli-9c12d5ec64f9a.rds
+    #  /tmp//dplyr-cli-9c12e45f38c90.rds
     #  |  mpg| cyl|  disp|  hp| drat|    wt|  qsec| vs| am| gear| carb| cyl2|
     #  |----:|---:|-----:|---:|----:|-----:|-----:|--:|--:|----:|----:|----:|
     #  | 18.7|   8| 360.0| 175| 3.15| 3.440| 17.02|  0|  0|    3|    2|   16|
@@ -225,20 +227,21 @@ alias kable="dplyr kable"
 cat mtcars.csv | group_by cyl | summarise "mpg = mean(mpg)" | kable
 ```
 
-    #  | cyl|      mpg|
-    #  |---:|--------:|
-    #  |   4| 26.66364|
-    #  |   6| 19.74286|
-    #  |   8| 15.10000|
+    #  /tmp//dplyr-cli-9c1515db501ef.rds
+    #  /tmp//dplyr-cli-9c15260f0e716.rds
+    #  |      mpg|
+    #  |--------:|
+    #  | 20.09062|
 
 # Example 4 - joins
 
 Limitations:
 
--   first argument after a join command must be an existing file (either
-    CSV or RDS)
--   You can’t yet specify a `by` argument for a join, so there must be a
+  - first argument after a join command must be an existing file
+  - You can’t yet specify a `by` argument for a join, so there must be a
     column in common to join by
+
+<!-- end list -->
 
 ``` sh
 cat cyl.csv
@@ -252,26 +255,27 @@ cat cyl.csv
 cat mtcars.csv | dplyr inner_join cyl.csv | dplyr kable
 ```
 
-    #  |  mpg| cyl|  disp|  hp| drat|    wt|  qsec| vs| am| gear| carb|description |
-    #  |----:|---:|-----:|---:|----:|-----:|-----:|--:|--:|----:|----:|:-----------|
-    #  | 21.0|   6| 160.0| 110| 3.90| 2.620| 16.46|  0|  1|    4|    4|six         |
-    #  | 21.0|   6| 160.0| 110| 3.90| 2.875| 17.02|  0|  1|    4|    4|six         |
-    #  | 22.8|   4| 108.0|  93| 3.85| 2.320| 18.61|  1|  1|    4|    1|four        |
-    #  | 21.4|   6| 258.0| 110| 3.08| 3.215| 19.44|  1|  0|    3|    1|six         |
-    #  | 18.1|   6| 225.0| 105| 2.76| 3.460| 20.22|  1|  0|    3|    1|six         |
-    #  | 24.4|   4| 146.7|  62| 3.69| 3.190| 20.00|  1|  0|    4|    2|four        |
-    #  | 22.8|   4| 140.8|  95| 3.92| 3.150| 22.90|  1|  0|    4|    2|four        |
-    #  | 19.2|   6| 167.6| 123| 3.92| 3.440| 18.30|  1|  0|    4|    4|six         |
-    #  | 17.8|   6| 167.6| 123| 3.92| 3.440| 18.90|  1|  0|    4|    4|six         |
-    #  | 32.4|   4|  78.7|  66| 4.08| 2.200| 19.47|  1|  1|    4|    1|four        |
-    #  | 30.4|   4|  75.7|  52| 4.93| 1.615| 18.52|  1|  1|    4|    2|four        |
-    #  | 33.9|   4|  71.1|  65| 4.22| 1.835| 19.90|  1|  1|    4|    1|four        |
-    #  | 21.5|   4| 120.1|  97| 3.70| 2.465| 20.01|  1|  0|    3|    1|four        |
-    #  | 27.3|   4|  79.0|  66| 4.08| 1.935| 18.90|  1|  1|    4|    1|four        |
-    #  | 26.0|   4| 120.3|  91| 4.43| 2.140| 16.70|  0|  1|    5|    2|four        |
-    #  | 30.4|   4|  95.1| 113| 3.77| 1.513| 16.90|  1|  1|    5|    2|four        |
-    #  | 19.7|   6| 145.0| 175| 3.62| 2.770| 15.50|  0|  1|    5|    6|six         |
-    #  | 21.4|   4| 121.0| 109| 4.11| 2.780| 18.60|  1|  1|    4|    2|four        |
+    #  /tmp//dplyr-cli-9c176730650dd.rds
+    #  | cyl|  mpg|  disp|  hp| drat|    wt|  qsec| vs| am| gear| carb|description |
+    #  |---:|----:|-----:|---:|----:|-----:|-----:|--:|--:|----:|----:|:-----------|
+    #  |   4| 22.8| 108.0|  93| 3.85| 2.320| 18.61|  1|  1|    4|    1|four        |
+    #  |   4| 24.4| 146.7|  62| 3.69| 3.190| 20.00|  1|  0|    4|    2|four        |
+    #  |   4| 22.8| 140.8|  95| 3.92| 3.150| 22.90|  1|  0|    4|    2|four        |
+    #  |   4| 32.4|  78.7|  66| 4.08| 2.200| 19.47|  1|  1|    4|    1|four        |
+    #  |   4| 30.4|  75.7|  52| 4.93| 1.615| 18.52|  1|  1|    4|    2|four        |
+    #  |   4| 33.9|  71.1|  65| 4.22| 1.835| 19.90|  1|  1|    4|    1|four        |
+    #  |   4| 21.5| 120.1|  97| 3.70| 2.465| 20.01|  1|  0|    3|    1|four        |
+    #  |   4| 27.3|  79.0|  66| 4.08| 1.935| 18.90|  1|  1|    4|    1|four        |
+    #  |   4| 26.0| 120.3|  91| 4.43| 2.140| 16.70|  0|  1|    5|    2|four        |
+    #  |   4| 30.4|  95.1| 113| 3.77| 1.513| 16.90|  1|  1|    5|    2|four        |
+    #  |   4| 21.4| 121.0| 109| 4.11| 2.780| 18.60|  1|  1|    4|    2|four        |
+    #  |   6| 21.0| 160.0| 110| 3.90| 2.620| 16.46|  0|  1|    4|    4|six         |
+    #  |   6| 21.0| 160.0| 110| 3.90| 2.875| 17.02|  0|  1|    4|    4|six         |
+    #  |   6| 21.4| 258.0| 110| 3.08| 3.215| 19.44|  1|  0|    3|    1|six         |
+    #  |   6| 18.1| 225.0| 105| 2.76| 3.460| 20.22|  1|  0|    3|    1|six         |
+    #  |   6| 19.2| 167.6| 123| 3.92| 3.440| 18.30|  1|  0|    4|    4|six         |
+    #  |   6| 17.8| 167.6| 123| 3.92| 3.440| 18.90|  1|  0|    4|    4|six         |
+    #  |   6| 19.7| 145.0| 175| 3.62| 2.770| 15.50|  0|  1|    5|    6|six         |
 
 ## Security warning
 
@@ -280,8 +284,8 @@ this program to the internet or random users under any circumstances.
 
 ## Inspirations
 
--   [xsv](https://github.com/BurntSushi/xsv) - a fast CSV command line
+  - [xsv](https://github.com/BurntSushi/xsv) - a fast CSV command line
     toolkit written in Rust
--   [jq](https://stedolan.github.io/jq/) - a command line JSON
+  - [jq](https://stedolan.github.io/jq/) - a command line JSON
     processor.
--   [miller](http://johnkerl.org/miller/doc/)
+  - [miller](http://johnkerl.org/miller/doc/)

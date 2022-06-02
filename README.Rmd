@@ -14,12 +14,10 @@ knitr::opts_chunk$set(
 
 # dplyr-cli
 
-<!-- badges: start -->
-![](https://img.shields.io/badge/cool-useless-green.svg)
-<!-- badges: end -->
-
-`dplyr-cli` uses the `Rscript` executable to 
-run dplyr commands on CSV files in the terminal.
+This a fork of a very nice tool written as a Rscript uses the `Rscript` executable to 
+run dplyr commands on CSV files in the terminal. This version, however, changes 
+the code so it reads any filetype supported by `data.table::fread()` and manipulates
+the data as a `data.table` object. 
 
 `dplyr-cli` makes use of the terminal pipe `|` instead of the magrittr pipe (`%>%`)
 to run sequences of commands.
@@ -35,8 +33,9 @@ cat mtcars.csv | group_by cyl | summarise "mpg = mean(mpg)" | kable
 
 ## Motivation
 
-I wanted to be able to do quick hacks on CSV files on the command line using
-dplyr syntax, but without actually starting a proper R session.
+This modification of the original code was a result of necessity while working with genotype data. It 
+is by no means the quickest way of doing this type of manipulation but it reduces learning curve while
+keeping the process relatively quick due to `data.table` use.
 
 
 ## What dplyr commands are supported?
@@ -55,7 +54,7 @@ Currently two extra commands are supported which are not part of `dplyr`.
 
 ## Limitations
 
-* Only tested under 'bash' on OSX. YMMV.
+* Only tested under 'bash'  and 'zsh' on OSX and Linux. YMMV.
 * Every command runs in a separate R session.
 * When using special shell characters such as `()`, you'll have to quote 
   your code arguments.  Some shells will require more quoting than others.
@@ -92,9 +91,13 @@ dplyr --help
 
 * Fix handling for latest `read_csv()`.  Fixes #9
 
+#### v0.2.0 2020-06-02
+
+* Converted to use fread and data.table
 
 ## Contributors
 
+* [coolbutuseless](https://github.com/coolbutuseless) - original author
 * [aborusso](https://github.com/aborruso) - documentation
 
 
@@ -103,33 +106,8 @@ dplyr --help
 Because this script straddles a great divide between R and the shell, you need 
 to ensure both are set up correctly for this to work.
 
-1. Install R packages
+1. ~Install R packages~. This was also edited to perform installation of dependencies in first run. So in the very first run, expect it not to work. I still have to figure out a way of echoing meaninful warnings in this case.
 2. Clone this repo and put `dplyr` in your path
-
-
-#### Install R packages - within R
-`dplyr-cli` is run from the shell but at every invocation is starting a new 
-rsession where the following packages are expected to be installed:
-
-
-```{r eval=FALSE}
-install.packages('readr')    # read in CSV data
-install.packages('dplyr')    # data manipulation
-install.packages('docopt')   # CLI description language
-```
-
-<details>
-<summary> Click to reveal instructions for installing packages on the command line</summary>
-
-To do it from the cli on a linux-ish system, install `r-base` (`sudo apt -y install r-base`) and then run
-
-```bash
-sudo su - -c "R -e \"install.packages('readr', repos='http://cran.rstudio.com/')\""
-sudo su - -c "R -e \"install.packages('dplyr', repos='http://cran.rstudio.com/')\""
-sudo su - -c "R -e \"install.packages('docopt', repos='http://cran.rstudio.com/')\""
-```
-
-</details>
 
 
 #### Clone this repo and put `dplyr` in your path
@@ -209,7 +187,7 @@ cat mtcars.csv | group_by cyl | summarise "mpg = mean(mpg)" | kable
 
 Limitations:
 
-* first argument after a join command must be an existing file (either CSV or RDS)
+* first argument after a join command must be an existing file 
 * You can't yet specify a `by` argument for a join, so there must be a column in 
   common to join by
   
@@ -222,7 +200,6 @@ cat cyl.csv
 ```{sh}
 cat mtcars.csv | dplyr inner_join cyl.csv | dplyr kable
 ```
-
 
 
 ## Security warning

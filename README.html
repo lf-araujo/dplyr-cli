@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style type="text/css">
+@font-face {
+font-family: octicons-link;
+src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+body {
+-webkit-text-size-adjust: 100%;
+text-size-adjust: 100%;
+color: #333;
+font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+font-size: 16px;
+line-height: 1.6;
+word-wrap: break-word;
+}
+a {
+background-color: transparent;
+}
+a:active,
+a:hover {
+outline: 0;
+}
+strong {
+font-weight: bold;
+}
+h1 {
+font-size: 2em;
+margin: 0.67em 0;
+}
+img {
+border: 0;
+}
+hr {
+box-sizing: content-box;
+height: 0;
+}
+pre {
+overflow: auto;
+}
+code,
+kbd,
+pre {
+font-family: monospace, monospace;
+font-size: 1em;
+}
+input {
+color: inherit;
+font: inherit;
+margin: 0;
+}
+html input[disabled] {
+cursor: default;
+}
+input {
+line-height: normal;
+}
+input[type="checkbox"] {
+box-sizing: border-box;
+padding: 0;
+}
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+td,
+th {
+padding: 0;
+}
+* {
+box-sizing: border-box;
+}
+input {
+font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+a {
+color: #4078c0;
+text-decoration: none;
+}
+a:hover,
+a:active {
+text-decoration: underline;
+}
+hr {
+height: 0;
+margin: 15px 0;
+overflow: hidden;
+background: transparent;
+border: 0;
+border-bottom: 1px solid #ddd;
+}
+hr:before {
+display: table;
+content: "";
+}
+hr:after {
+display: table;
+clear: both;
+content: "";
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 15px;
+margin-bottom: 15px;
+line-height: 1.1;
+}
+h1 {
+font-size: 30px;
+}
+h2 {
+font-size: 21px;
+}
+h3 {
+font-size: 16px;
+}
+h4 {
+font-size: 14px;
+}
+h5 {
+font-size: 12px;
+}
+h6 {
+font-size: 11px;
+}
+blockquote {
+margin: 0;
+}
+ul,
+ol {
+padding: 0;
+margin-top: 0;
+margin-bottom: 0;
+}
+ol ol,
+ul ol {
+list-style-type: lower-roman;
+}
+ul ul ol,
+ul ol ol,
+ol ul ol,
+ol ol ol {
+list-style-type: lower-alpha;
+}
+dd {
+margin-left: 0;
+}
+code {
+font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+font-size: 12px;
+}
+pre {
+margin-top: 0;
+margin-bottom: 0;
+font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+.select::-ms-expand {
+opacity: 0;
+}
+.octicon {
+font: normal normal normal 16px/1 octicons-link;
+display: inline-block;
+text-decoration: none;
+text-rendering: auto;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+.octicon-link:before {
+content: '\f05c';
+}
+.markdown-body:before {
+display: table;
+content: "";
+}
+.markdown-body:after {
+display: table;
+clear: both;
+content: "";
+}
+.markdown-body>*:first-child {
+margin-top: 0 !important;
+}
+.markdown-body>*:last-child {
+margin-bottom: 0 !important;
+}
+a:not([href]) {
+color: inherit;
+text-decoration: none;
+}
+.anchor {
+display: inline-block;
+padding-right: 2px;
+margin-left: -18px;
+}
+.anchor:focus {
+outline: none;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 1em;
+margin-bottom: 16px;
+font-weight: bold;
+line-height: 1.4;
+}
+h1 .octicon-link,
+h2 .octicon-link,
+h3 .octicon-link,
+h4 .octicon-link,
+h5 .octicon-link,
+h6 .octicon-link {
+color: #000;
+vertical-align: middle;
+visibility: hidden;
+}
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+text-decoration: none;
+}
+h1:hover .anchor .octicon-link,
+h2:hover .anchor .octicon-link,
+h3:hover .anchor .octicon-link,
+h4:hover .anchor .octicon-link,
+h5:hover .anchor .octicon-link,
+h6:hover .anchor .octicon-link {
+visibility: visible;
+}
+h1 {
+padding-bottom: 0.3em;
+font-size: 2.25em;
+line-height: 1.2;
+border-bottom: 1px solid #eee;
+}
+h1 .anchor {
+line-height: 1;
+}
+h2 {
+padding-bottom: 0.3em;
+font-size: 1.75em;
+line-height: 1.225;
+border-bottom: 1px solid #eee;
+}
+h2 .anchor {
+line-height: 1;
+}
+h3 {
+font-size: 1.5em;
+line-height: 1.43;
+}
+h3 .anchor {
+line-height: 1.2;
+}
+h4 {
+font-size: 1.25em;
+}
+h4 .anchor {
+line-height: 1.2;
+}
+h5 {
+font-size: 1em;
+}
+h5 .anchor {
+line-height: 1.1;
+}
+h6 {
+font-size: 1em;
+color: #777;
+}
+h6 .anchor {
+line-height: 1.1;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table,
+pre {
+margin-top: 0;
+margin-bottom: 16px;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 16px 0;
+background-color: #e7e7e7;
+border: 0 none;
+}
+ul,
+ol {
+padding-left: 2em;
+}
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+margin-top: 0;
+margin-bottom: 0;
+}
+li>p {
+margin-top: 16px;
+}
+dl {
+padding: 0;
+}
+dl dt {
+padding: 0;
+margin-top: 16px;
+font-size: 1em;
+font-style: italic;
+font-weight: bold;
+}
+dl dd {
+padding: 0 16px;
+margin-bottom: 16px;
+}
+blockquote {
+padding: 0 15px;
+color: #777;
+border-left: 4px solid #ddd;
+}
+blockquote>:first-child {
+margin-top: 0;
+}
+blockquote>:last-child {
+margin-bottom: 0;
+}
+table {
+display: block;
+width: 100%;
+overflow: auto;
+word-break: normal;
+word-break: keep-all;
+}
+table th {
+font-weight: bold;
+}
+table th,
+table td {
+padding: 6px 13px;
+border: 1px solid #ddd;
+}
+table tr {
+background-color: #fff;
+border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+background-color: #f8f8f8;
+}
+img {
+max-width: 100%;
+box-sizing: content-box;
+background-color: #fff;
+}
+code {
+padding: 0;
+padding-top: 0.2em;
+padding-bottom: 0.2em;
+margin: 0;
+font-size: 85%;
+background-color: rgba(0,0,0,0.04);
+border-radius: 3px;
+}
+code:before,
+code:after {
+letter-spacing: -0.2em;
+content: "\00a0";
+}
+pre>code {
+padding: 0;
+margin: 0;
+font-size: 100%;
+word-break: normal;
+white-space: pre;
+background: transparent;
+border: 0;
+}
+.highlight {
+margin-bottom: 16px;
+}
+.highlight pre,
+pre {
+padding: 16px;
+overflow: auto;
+font-size: 85%;
+line-height: 1.45;
+background-color: #f7f7f7;
+border-radius: 3px;
+}
+.highlight pre {
+margin-bottom: 0;
+word-break: normal;
+}
+pre {
+word-wrap: normal;
+}
+pre code {
+display: inline;
+max-width: initial;
+padding: 0;
+margin: 0;
+overflow: initial;
+line-height: inherit;
+word-wrap: normal;
+background-color: transparent;
+border: 0;
+}
+pre code:before,
+pre code:after {
+content: normal;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font-size: 11px;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.pl-c {
+color: #969896;
+}
+.pl-c1,
+.pl-s .pl-v {
+color: #0086b3;
+}
+.pl-e,
+.pl-en {
+color: #795da3;
+}
+.pl-s .pl-s1,
+.pl-smi {
+color: #333;
+}
+.pl-ent {
+color: #63a35c;
+}
+.pl-k {
+color: #a71d5d;
+}
+.pl-pds,
+.pl-s,
+.pl-s .pl-pse .pl-s1,
+.pl-sr,
+.pl-sr .pl-cce,
+.pl-sr .pl-sra,
+.pl-sr .pl-sre {
+color: #183691;
+}
+.pl-v {
+color: #ed6a43;
+}
+.pl-id {
+color: #b52a1d;
+}
+.pl-ii {
+background-color: #b52a1d;
+color: #f8f8f8;
+}
+.pl-sr .pl-cce {
+color: #63a35c;
+font-weight: bold;
+}
+.pl-ml {
+color: #693a17;
+}
+.pl-mh,
+.pl-mh .pl-en,
+.pl-ms {
+color: #1d3e81;
+font-weight: bold;
+}
+.pl-mq {
+color: #008080;
+}
+.pl-mi {
+color: #333;
+font-style: italic;
+}
+.pl-mb {
+color: #333;
+font-weight: bold;
+}
+.pl-md {
+background-color: #ffecec;
+color: #bd2c00;
+}
+.pl-mi1 {
+background-color: #eaffea;
+color: #55a532;
+}
+.pl-mdr {
+color: #795da3;
+font-weight: bold;
+}
+.pl-mo {
+color: #1d3e81;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.task-list-item {
+list-style-type: none;
+}
+.task-list-item+.task-list-item {
+margin-top: 3px;
+}
+.task-list-item input {
+margin: 0 0.35em 0.25em -1.6em;
+vertical-align: middle;
+}
+:checked+.radio-label {
+z-index: 1;
+position: relative;
+border-color: #4078c0;
+}
+.sourceLine {
+display: inline-block;
+}
+code .kw { color: #000000; }
+code .dt { color: #ed6a43; }
+code .dv { color: #009999; }
+code .bn { color: #009999; }
+code .fl { color: #009999; }
+code .ch { color: #009999; }
+code .st { color: #183691; }
+code .co { color: #969896; }
+code .ot { color: #0086b3; }
+code .al { color: #a61717; }
+code .fu { color: #63a35c; }
+code .er { color: #a61717; background-color: #e3d2d2; }
+code .wa { color: #000000; }
+code .cn { color: #008080; }
+code .sc { color: #008080; }
+code .vs { color: #183691; }
+code .ss { color: #183691; }
+code .im { color: #000000; }
+code .va {color: #008080; }
+code .cf { color: #000000; }
+code .op { color: #000000; }
+code .bu { color: #000000; }
+code .ex { color: #000000; }
+code .pp { color: #999999; }
+code .at { color: #008080; }
+code .do { color: #969896; }
+code .an { color: #008080; }
+code .cv { color: #008080; }
+code .in { color: #008080; }
+</style>
+<style>
+body {
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 45px;
+  padding-top: 0px;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+<h1 id="dplyr-cli">dplyr-cli</h1>
+<p>This a fork of a very nice tool written as a Rscript uses the <code>Rscript</code> executable to run dplyr commands on CSV files in the terminal. This version, however, changes the code so it reads any filetype supported by <code>data.table::fread()</code> and manipulates the data as a <code>data.table</code> object.</p>
+<p><code>dplyr-cli</code> makes use of the terminal pipe <code>|</code> instead of the magrittr pipe (<code>%&gt;%</code>) to run sequences of commands.</p>
+<pre><code>cat mtcars.csv | group_by cyl | summarise &quot;mpg = mean(mpg)&quot; | kable
+#&gt; | cyl|      mpg|
+#&gt; |---:|--------:|
+#&gt; |   4| 26.66364|
+#&gt; |   6| 19.74286|
+#&gt; |   8| 15.10000|
+</code></pre>
+<h2 id="motivation">Motivation</h2>
+<p>This modification of the original code was a result of necessity while working with genotype data. It is by no means the quickest way of doing this type of manipulation but it reduces learning curve while keeping the process relatively quick due to <code>data.table</code> use.</p>
+<h2 id="what-dplyr-commands-are-supported">What dplyr commands are supported?</h2>
+<p>Any command of the form:</p>
+<ul>
+<li><code>dplyr::verb(.data, code)</code></li>
+<li><code>dplyr::*_join(.data, .rhs)</code></li>
+</ul>
+<p>Currently two extra commands are supported which are not part of <code>dplyr</code>.</p>
+<ul>
+<li><code>csv</code> performs no dplyr command, but only outputs the input data as CSV to stdout</li>
+<li><code>kable</code> performs no dplyr command, but only outputs the input data as a <code>knitr::kable()</code> formatted string to stdout</li>
+</ul>
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li>Only tested under ‘bash’ and ‘zsh’ on OSX and Linux. YMMV.</li>
+<li>Every command runs in a separate R session.</li>
+<li>When using special shell characters such as <code>()</code>, you’ll have to quote your code arguments. Some shells will require more quoting than others.</li>
+<li>“joins” (such as <code>left_join</code>) do not currently let you specify the <code>by</code> argument, so there must be columns in common to both dataset</li>
+</ul>
+<h2 id="usage">Usage</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="ex">dplyr</span> --help</span></code></pre></div>
+<pre><code>#  dplyr-cli      [ldearaujo@unimelb.edu.au, mikefc@coolbutuseless.com]
+#  
+#  Run chains of dplyr commands in the terminal. This update
+#  allows guessing and fast reading with fread, as well as,
+#  managing the data as fast as possible with data.table
+#  
+#  * run any dplyr command of the form dplyr::verb(.data, code)
+#  * can set input file to be a CSV or RDS file
+#  * if reading data from stdin (the default), assume that it is CSV format
+#  
+#  History
+#    v0.1.0  2020-04-20 Initial release
+#    v0.1.1  2020-04-21 Switch to Rscript executable
+#    v0.1.2  2020-04-21 Support for joins
+#    v0.1.3  2020-04-22 More robust tmpdir handling
+#    v0.1.4  2022-01-23 Fix for newer read_csv handling
+#    v0.2.0  2020-06-02 General guessing with fread
+#  
+#  You may encounter errors in the first ever run, due to package installation. Test a second time if this is the case.
+#  
+#  Usage:
+#      dplyr &lt;command&gt; [--file=fn] [--csv | -c] [--verbose | -v] [&lt;code&gt;...]
+#      dplyr -h | --help
+#  
+#  Options:
+#      -h --help            show this help text
+#      --version     Show version.
+#      -f FILE --file=FILE  input CSV or RDS filename. If reading from stdin, assumes CSV [default: stdin]
+#      -c --csv             write output to stdout in CSV format (instead of default RDS file)
+#      -v --verbose         be verbose
+</code></pre>
+<h2 id="history">History</h2>
+<h4 id="v010-2020-04-20">v0.1.0 2020-04-20</h4>
+<ul>
+<li>Initial release</li>
+</ul>
+<h4 id="v011-2020-04-21">v0.1.1 2020-04-21</h4>
+<ul>
+<li>Switch to ‘Rscript’ for easier install for users</li>
+<li>rename ‘dplyr.sh’ to just ‘dplyr’</li>
+</ul>
+<h4 id="v012-2020-04-21">v0.1.2 2020-04-21</h4>
+<ul>
+<li>Support for joins e.g. <code>left_join</code></li>
+</ul>
+<h4 id="v013-2020-04-22">v0.1.3 2020-04-22</h4>
+<ul>
+<li>More robust tmpdir handling</li>
+</ul>
+<h4 id="v014-2022-01-23">v0.1.4 2022-01-23</h4>
+<ul>
+<li>Fix handling for latest <code>read_csv()</code>. Fixes #9</li>
+</ul>
+<h4 id="v020-2020-06-02">v0.2.0 2020-06-02</h4>
+<ul>
+<li>Converted to use fread and data.table</li>
+</ul>
+<h2 id="contributors">Contributors</h2>
+<ul>
+<li><a href="https://github.com/coolbutuseless">coolbutuseless</a> - original author</li>
+<li><a href="https://github.com/aborruso">aborusso</a> - documentation</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<p>Because this script straddles a great divide between R and the shell, you need to ensure both are set up correctly for this to work.</p>
+<ol>
+<li>~Install R packages~. This was also edited to perform installation of dependencies in first run. So in the very first run, expect it not to work. I still have to figure out a way of echoing meaninful warnings in this case.</li>
+<li>Clone this repo and put <code>dplyr</code> in your path</li>
+</ol>
+<h4 id="clone-this-repo-and-put-dplyr-in-your-path">Clone this repo and put <code>dplyr</code> in your path</h4>
+<p>You’ll then need to download the shell script from this repository and put <code>dplyr</code> somewhere in your path.</p>
+<pre><code>git clone https://github.com/coolbutuseless/dplyr-cli
+cp dplyr-cli/dplyr ./somewhere/in/your/search/path
+</code></pre>
+<h1 id="example-data">Example data</h1>
+<p>Put an example CSV file on the filesystem. Note: This CSV file is now included as <code>mtcars.csv</code> as part of this git repository, as is a second CSV file for demonstrating joins - <code>cyl.csv</code></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="kw">write.csv</span>(mtcars, <span class="st">&quot;mtcars.csv&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<h1 id="example-1---basic-usage">Example 1 - Basic Usage</h1>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="co"># cat contents of input CSV into dplyr-cli.  </span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="co"># Use &#39;-c&#39; to output CSV if this is the final step</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="fu">cat</span> mtcars.csv <span class="kw">|</span> <span class="ex">dplyr</span> filter -c <span class="st">&quot;mpg == 21&quot;</span></span></code></pre></div>
+<pre><code>#  &quot;mpg&quot;,&quot;cyl&quot;,&quot;disp&quot;,&quot;hp&quot;,&quot;drat&quot;,&quot;wt&quot;,&quot;qsec&quot;,&quot;vs&quot;,&quot;am&quot;,&quot;gear&quot;,&quot;carb&quot;
+#  21,6,160,110,3.9,2.62,16.46,0,1,4,4
+#  21,6,160,110,3.9,2.875,17.02,0,1,4,4
+</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="co"># Put quotes around any commands which contain special characters like &lt;&gt;()</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a><span class="fu">cat</span> mtcars.csv <span class="kw">|</span> <span class="ex">dplyr</span> filter -c <span class="st">&quot;mpg &lt; 11&quot;</span></span></code></pre></div>
+<pre><code>#  &quot;mpg&quot;,&quot;cyl&quot;,&quot;disp&quot;,&quot;hp&quot;,&quot;drat&quot;,&quot;wt&quot;,&quot;qsec&quot;,&quot;vs&quot;,&quot;am&quot;,&quot;gear&quot;,&quot;carb&quot;
+#  10.4,8,472,205,2.93,5.25,17.98,0,0,3,4
+#  10.4,8,460,215,3,5.424,17.82,0,0,3,4
+</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="co"># Combine dplyr commands with shell &#39;head&#39; command</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a><span class="ex">dplyr</span> select --file mtcars.csv -c cyl <span class="kw">|</span> <span class="fu">head</span> -n 6</span></code></pre></div>
+<pre><code>#  &quot;cyl&quot;
+#  6
+#  6
+#  4
+#  6
+#  8
+</code></pre>
+<h1 id="example-2---simple-piping-of-commands-with-shell-pipe-not-magrittr-pipe">Example 2 - Simple piping of commands (with shell pipe, not magrittr pipe)</h1>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="fu">cat</span> mtcars.csv <span class="kw">|</span> <span class="kw">\</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>   <span class="ex">dplyr</span> mutate <span class="st">&quot;cyl2 = 2 * cyl&quot;</span>  <span class="kw">|</span> <span class="kw">\</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>   <span class="ex">dplyr</span> filter <span class="st">&quot;cyl == 8&quot;</span> <span class="kw">|</span> <span class="kw">\</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a>   <span class="ex">dplyr</span> kable</span></code></pre></div>
+<pre><code>#  /tmp//dplyr-cli-9c12d5ec64f9a.rds
+#  /tmp//dplyr-cli-9c12e45f38c90.rds
+#  |  mpg| cyl|  disp|  hp| drat|    wt|  qsec| vs| am| gear| carb| cyl2|
+#  |----:|---:|-----:|---:|----:|-----:|-----:|--:|--:|----:|----:|----:|
+#  | 18.7|   8| 360.0| 175| 3.15| 3.440| 17.02|  0|  0|    3|    2|   16|
+#  | 14.3|   8| 360.0| 245| 3.21| 3.570| 15.84|  0|  0|    3|    4|   16|
+#  | 16.4|   8| 275.8| 180| 3.07| 4.070| 17.40|  0|  0|    3|    3|   16|
+#  | 17.3|   8| 275.8| 180| 3.07| 3.730| 17.60|  0|  0|    3|    3|   16|
+#  | 15.2|   8| 275.8| 180| 3.07| 3.780| 18.00|  0|  0|    3|    3|   16|
+#  | 10.4|   8| 472.0| 205| 2.93| 5.250| 17.98|  0|  0|    3|    4|   16|
+#  | 10.4|   8| 460.0| 215| 3.00| 5.424| 17.82|  0|  0|    3|    4|   16|
+#  | 14.7|   8| 440.0| 230| 3.23| 5.345| 17.42|  0|  0|    3|    4|   16|
+#  | 15.5|   8| 318.0| 150| 2.76| 3.520| 16.87|  0|  0|    3|    2|   16|
+#  | 15.2|   8| 304.0| 150| 3.15| 3.435| 17.30|  0|  0|    3|    2|   16|
+#  | 13.3|   8| 350.0| 245| 3.73| 3.840| 15.41|  0|  0|    3|    4|   16|
+#  | 19.2|   8| 400.0| 175| 3.08| 3.845| 17.05|  0|  0|    3|    2|   16|
+#  | 15.8|   8| 351.0| 264| 4.22| 3.170| 14.50|  0|  1|    5|    4|   16|
+#  | 15.0|   8| 301.0| 335| 3.54| 3.570| 14.60|  0|  1|    5|    8|   16|
+</code></pre>
+<h1 id="example-3---set-up-some-aliases-for-convenience">Example 3 - set up some aliases for convenience</h1>
+<div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="bu">alias</span> mutate=<span class="st">&quot;dplyr mutate&quot;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a><span class="bu">alias</span> filter=<span class="st">&quot;dplyr filter&quot;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a><span class="bu">alias</span> select=<span class="st">&quot;dplyr select&quot;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a><span class="bu">alias</span> summarise=<span class="st">&quot;dplyr summarise&quot;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true"></a><span class="bu">alias</span> group_by=<span class="st">&quot;dplyr group_by&quot;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true"></a><span class="bu">alias</span> ungroup=<span class="st">&quot;dplyr ungroup&quot;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true"></a><span class="bu">alias</span> count=<span class="st">&quot;dplyr count&quot;</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true"></a><span class="bu">alias</span> arrange=<span class="st">&quot;dplyr arrange&quot;</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true"></a><span class="bu">alias</span> kable=<span class="st">&quot;dplyr kable&quot;</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true"></a><span class="fu">cat</span> mtcars.csv <span class="kw">|</span> <span class="ex">group_by</span> cyl <span class="kw">|</span> <span class="ex">summarise</span> <span class="st">&quot;mpg = mean(mpg)&quot;</span> <span class="kw">|</span> <span class="ex">kable</span></span></code></pre></div>
+<pre><code>#  /tmp//dplyr-cli-9c1515db501ef.rds
+#  /tmp//dplyr-cli-9c15260f0e716.rds
+#  |      mpg|
+#  |--------:|
+#  | 20.09062|
+</code></pre>
+<h1 id="example-4---joins">Example 4 - joins</h1>
+<p>Limitations:</p>
+<ul>
+<li>first argument after a join command must be an existing file</li>
+<li>You can’t yet specify a <code>by</code> argument for a join, so there must be a column in common to join by</li>
+</ul>
+<!-- end list -->
+
+<div class="sourceCode" id="cb16"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a><span class="fu">cat</span> cyl.csv</span></code></pre></div>
+<pre><code>#  cyl,description
+#  4,four
+#  6,six
+</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a><span class="fu">cat</span> mtcars.csv <span class="kw">|</span> <span class="ex">dplyr</span> inner_join cyl.csv <span class="kw">|</span> <span class="ex">dplyr</span> kable</span></code></pre></div>
+<pre><code>#  /tmp//dplyr-cli-9c176730650dd.rds
+#  | cyl|  mpg|  disp|  hp| drat|    wt|  qsec| vs| am| gear| carb|description |
+#  |---:|----:|-----:|---:|----:|-----:|-----:|--:|--:|----:|----:|:-----------|
+#  |   4| 22.8| 108.0|  93| 3.85| 2.320| 18.61|  1|  1|    4|    1|four        |
+#  |   4| 24.4| 146.7|  62| 3.69| 3.190| 20.00|  1|  0|    4|    2|four        |
+#  |   4| 22.8| 140.8|  95| 3.92| 3.150| 22.90|  1|  0|    4|    2|four        |
+#  |   4| 32.4|  78.7|  66| 4.08| 2.200| 19.47|  1|  1|    4|    1|four        |
+#  |   4| 30.4|  75.7|  52| 4.93| 1.615| 18.52|  1|  1|    4|    2|four        |
+#  |   4| 33.9|  71.1|  65| 4.22| 1.835| 19.90|  1|  1|    4|    1|four        |
+#  |   4| 21.5| 120.1|  97| 3.70| 2.465| 20.01|  1|  0|    3|    1|four        |
+#  |   4| 27.3|  79.0|  66| 4.08| 1.935| 18.90|  1|  1|    4|    1|four        |
+#  |   4| 26.0| 120.3|  91| 4.43| 2.140| 16.70|  0|  1|    5|    2|four        |
+#  |   4| 30.4|  95.1| 113| 3.77| 1.513| 16.90|  1|  1|    5|    2|four        |
+#  |   4| 21.4| 121.0| 109| 4.11| 2.780| 18.60|  1|  1|    4|    2|four        |
+#  |   6| 21.0| 160.0| 110| 3.90| 2.620| 16.46|  0|  1|    4|    4|six         |
+#  |   6| 21.0| 160.0| 110| 3.90| 2.875| 17.02|  0|  1|    4|    4|six         |
+#  |   6| 21.4| 258.0| 110| 3.08| 3.215| 19.44|  1|  0|    3|    1|six         |
+#  |   6| 18.1| 225.0| 105| 2.76| 3.460| 20.22|  1|  0|    3|    1|six         |
+#  |   6| 19.2| 167.6| 123| 3.92| 3.440| 18.30|  1|  0|    4|    4|six         |
+#  |   6| 17.8| 167.6| 123| 3.92| 3.440| 18.90|  1|  0|    4|    4|six         |
+#  |   6| 19.7| 145.0| 175| 3.62| 2.770| 15.50|  0|  1|    5|    6|six         |
+</code></pre>
+<h2 id="security-warning">Security warning</h2>
+<p><code>dplyr-cli</code> uses <code>eval(parse(text = ...))</code> on user input. Do not expose this program to the internet or random users under any circumstances.</p>
+<h2 id="inspirations">Inspirations</h2>
+<ul>
+<li><a href="https://github.com/BurntSushi/xsv">xsv</a> - a fast CSV command line toolkit written in Rust</li>
+<li><a href="https://stedolan.github.io/jq/">jq</a> - a command line JSON processor.</li>
+<li><a href="http://johnkerl.org/miller/doc/">miller</a></li>
+</ul>
+
+</body>
+</html>
